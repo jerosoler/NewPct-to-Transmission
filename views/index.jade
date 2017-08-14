@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  input#nombrebusqueda(type='text', name='nombrebusqueda')
+  input#submitbusqueda(type='submit', value='Buscar')
+  br
+  img#LOADING(src='/images/Loading_icon.gif')
+  table
+  script(src='/javascripts/getLista.js')
