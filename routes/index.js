@@ -29,7 +29,11 @@ router.post('/addtorrent', function(req, res, next) {
     if (!error && response.statusCode == 200) {
       //item_count2++;
       var $ = cheerio.load(html);
-      var urltorrent = $("#content-torrent > a").attr("href");
+      //var urltorrent = $("#content-torrent > a").attr("href");
+      var textofiltrar = $("#tab1").text();
+      var urltorrent = textofiltrar.match(/http:\/\/.*?\.html/);
+
+
 
       exec('transmission-remote -a ' + urltorrent, function (error, stdout, stderr) {
       //exec('ls ', function (error, stdout, stderr) {
@@ -103,15 +107,48 @@ router.get('/getLista', function(req, res, next) {
 
 router.get('/getListaBusqueda', function(req, res, next) {
 
-  request('http://www.newpct.com/buscar-descargas/'+req.query.busqueda, function (error, response, html) {
+  request('http://www.newpct.com/?page=buscar&q='+req.query.busqueda, function (error, response, html) {
     if (!error && response.statusCode == 200) {
       //item_count2++;
       var $ = cheerio.load(html);
 
       var  lista = [];
 
-      var listabuscada = $("#categoryTable a").each(function (){
-        var titulo = $(this).attr('title');
+      var listabuscada = $(".buscar-list .info > a").each(function (){
+        //var titulo = $(this).attr('title');
+        var titulo = $(this).children("h2").html();
+        var view = titulo.indexOf("color:red");
+
+        var linkp = $(this).attr('href');
+        lista.push([titulo, linkp, view]);
+      });
+
+
+
+
+      res.json({ lista:lista });
+    } else {
+      console.log("error");
+    }
+  });
+
+});
+
+
+router.get('/getListaBusqueda2', function(req, res, next) {
+
+  request(req.query.busqueda, function (error, response, html) {
+    if (!error && response.statusCode == 200) {
+      //item_count2++;
+      var $ = cheerio.load(html);
+
+      var  lista = [];
+
+      var listabuscada = $(".buscar-list .info > a").each(function (){
+        //var titulo = $(this).attr('title');
+        var titulo = $(this).children("h2").html();
+
+
         var linkp = $(this).attr('href');
         lista.push([titulo, linkp]);
       });

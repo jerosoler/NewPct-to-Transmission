@@ -14,6 +14,8 @@ $('body').on("click", ".addtorrent", function() {
 });
 
 
+
+
 $('body').on("click", ".info", function() {
 
   var info= $(this).attr("data-info");
@@ -31,7 +33,11 @@ $('body').on("click", ".close", function() {
 
 $("#submitbusqueda").click( function(){
     var busqueda = $('#nombrebusqueda').val();
+		if(busqueda == "") {
+		window.location.replace('/');
+		} else {
     window.location.replace('/s/'+busqueda+'');
+		}
 
 });
 
