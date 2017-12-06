@@ -2,7 +2,30 @@ extends layout
 
 block content
   input#nombrebusqueda(type='text', name='nombrebusqueda')
+  select#nombrebusquedacalidad.busqueda-av(name='calidad')
+    option(value='') Seleccione calidad del contenido
+    option(value='HDTV') HDTV
+    option(value='HDTV 720p AC3 5.1') HDTV 720p AC3 5.1
+    option(value='HDTV 1080p AC3 5.1') HDTV 1080p AC3 5.1
+    option(value='DVDRIP') DVDRip
+    option(value='DVDRIP AC3 5.1') DVDRIP AC3 5.1
+    option(value='BLuRayRip') BLuRayRip
+    option(value='BluRayRip AC3 5.1') BluRayRip AC3 5.1
+    option(value='BluRay 720p') BluRay 720p
+    option(value='BluRay 1080p') BluRay 1080p
+    option(value='BluRay MicroHD') BluRay MicroHD
+    option(value='BluRay 3D 1080p') BluRay 3D 1080p
+    option(value='HDTV-Screener') HDTV-Screener
+    option(value='TS-Screener') TS-Screener
+    option(value='CAMRIP') CAMRIP
+    option(value='DVD-Screener') DVD-Screener
+    option(value='BluRay-Screeener') BluRay-Screeener
+    option(value='DVD5') DVD5
+    option(value='DVD9') DVD9
+    option(value='ISO') ISO
+    option(value='MP3') MP3
   input#submitbusqueda(type='submit', value='Buscar')
+  
   br
   img#LOADING(src='/images/Loading_icon.gif')
   table

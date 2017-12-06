@@ -33,10 +33,11 @@ $('body').on("click", ".close", function() {
 
 $("#submitbusqueda").click( function(){
     var busqueda = $('#nombrebusqueda').val();
+		var calidad = $('#nombrebusquedacalidad').val();
 		if(busqueda == "") {
 		window.location.replace('/');
 		} else {
-    window.location.replace('/s/'+busqueda+'');
+    window.location.replace('/s/'+busqueda+'/1/'+calidad+'');
 		}
 
 });

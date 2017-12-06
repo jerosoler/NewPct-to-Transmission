@@ -6,3 +6,24 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+ul.paginacion {
+  list-style: none;
+  display:flex;
+}
+
+li.current {
+  display:inline-block;
+  background: black;
+  color:white;
+  border-radius: 3px;
+}
+
+ul.paginacion > li {
+  padding: 10px;
+}
+
+.view {
+  cursor:pointer;
+}

@@ -14,10 +14,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express'});
 });
 
-router.get('/s/:busqueda', function(req, res, next) {
+router.get('/s/:busqueda/:page?/:calidad?', function(req, res, next) {
 
 
-  res.render('busqueda', { title: 'busqueda', busqueda: req.params.busqueda });
+  res.render('busqueda', { title: 'busqueda', busqueda: req.params.busqueda, page: req.params.page, calidad: req.params.calidad });
 
 });
 
@@ -30,7 +30,7 @@ router.post('/addtorrent', function(req, res, next) {
       //item_count2++;
       var $ = cheerio.load(html);
       //var urltorrent = $("#content-torrent > a").attr("href");
-      var textofiltrar = $("#tab1").text();
+      var textofiltrar = $("#tab1 script").html();
       var urltorrent = textofiltrar.match(/http:\/\/.*?\.html/);
 
 
@@ -107,12 +107,20 @@ router.get('/getLista', function(req, res, next) {
 
 router.get('/getListaBusqueda', function(req, res, next) {
 
-  request('http://www.newpct.com/?page=buscar&q='+req.query.busqueda, function (error, response, html) {
+  var url = 'http://www.newpct.com/?page=buscar&q='+req.query.busqueda;
+  if(!req.query.page) {
+     url = 'http://www.newpct.com/?page=buscar&q='+req.query.busqueda+'&calidad='+req.query.calidad;
+  } else {
+    url = 'http://www.newpct.com/?page=buscar&q='+req.query.busqueda+'&pg='+req.query.page+'&calidad='+req.query.calidad;
+  }
+
+  request(url, function (error, response, html) {
     if (!error && response.statusCode == 200) {
       //item_count2++;
       var $ = cheerio.load(html);
 
       var  lista = [];
+      var paginacion = [];
 
       var listabuscada = $(".buscar-list .info > a").each(function (){
         //var titulo = $(this).attr('title');
@@ -123,10 +131,19 @@ router.get('/getListaBusqueda', function(req, res, next) {
         lista.push([titulo, linkp, view]);
       });
 
+      var paginacionbuscada = $(".pagination > li > a").each(function (){
+        //var titulo = $(this).attr('title');
+        var pagina = $(this).text();
+        var classe = $(this).attr('class');
+
+        if(pagina != "Next" && pagina != "Last" && pagina != "First" && pagina != "Prev") {
+          paginacion.push([pagina, classe]);
+       }
+      });
 
 
 
-      res.json({ lista:lista });
+      res.json({ lista:lista,  paginacion: paginacion  });
     } else {
       console.log("error");
     }
@@ -143,6 +160,7 @@ router.get('/getListaBusqueda2', function(req, res, next) {
       var $ = cheerio.load(html);
 
       var  lista = [];
+      var paginacion = [];
 
       var listabuscada = $(".buscar-list .info > a").each(function (){
         //var titulo = $(this).attr('title');
@@ -153,10 +171,20 @@ router.get('/getListaBusqueda2', function(req, res, next) {
         lista.push([titulo, linkp]);
       });
 
+      var paginacionbuscada = $(".pagination > li > a").each(function (){
+        //var titulo = $(this).attr('title');
+        var pagina = $(this).text();
+        var classe = $(this).attr('class');
+
+        if(pagina != "Next" && pagina != "Last" && pagina != "First" && pagina != "Prev") {
+          paginacion.push([pagina, classe]);
+       }
+      });
 
 
 
-      res.json({ lista:lista });
+
+      res.json({ lista:lista, paginacion: paginacion });
     } else {
       console.log("error");
     }
