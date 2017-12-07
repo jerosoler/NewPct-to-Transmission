@@ -107,6 +107,10 @@ router.get('/getLista', function(req, res, next) {
 
 router.get('/getListaBusqueda', function(req, res, next) {
 
+  if(req.query.busqueda == ' ') {
+    req.query.busqueda = '';
+  }
+
   var url = 'http://www.newpct.com/?page=buscar&q='+req.query.busqueda;
   if(!req.query.page) {
      url = 'http://www.newpct.com/?page=buscar&q='+req.query.busqueda+'&calidad='+req.query.calidad;
