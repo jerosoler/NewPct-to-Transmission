@@ -1,3 +1,6 @@
+# Discontinued
+Nuevo proyecto https://github.com/jerosoler/newpct-total 
+
 # NewPct-to-Transmission
 
 Busqueda de torrents en NewPct y añade directamente a Transmission. Transmission tiene que estar instalado en la misma maquina
